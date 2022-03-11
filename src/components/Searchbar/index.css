@@ -2,7 +2,7 @@ label {
   position: relative;
 }
 
-input {
+#search {
   margin: 0;
   padding: 10px;
   padding-left: 40px;
@@ -10,8 +10,12 @@ input {
   background-color: rgb(243, 243, 243);
   border-radius: 50px;
   width: 275px;
+  font-size: 16px;
 }
 
+#search::-webkit-search-cancel-button {
+  cursor: pointer;
+}
 
 .search {
   position: absolute;
@@ -21,7 +25,19 @@ input {
   width: 20px;
 }
 
+.search img {
+  cursor: pointer;
+}
+
 .searchbar {
   display: flex;
   gap: 10px;
+}
+
+.home-button {
+  padding: 10px;
+  background-color: rgb(243, 243, 243);
+  width: 20px;
+  border-radius: 50%;
+  cursor: pointer;
 }

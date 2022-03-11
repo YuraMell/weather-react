@@ -6,14 +6,20 @@ import './index.css'
 
 const WeatherCityInfo = ({ info }) => {
   const { temperature, scale, city, country, cloudiness } = info
+
   const now = new Date();
   const today = now.toLocaleString('en-us', { weekday: 'long' })
   const current = now.getHours() + ':' + now.getMinutes();
+
   const isBrokenClouds = cloudiness > 50 && cloudiness < 80
 
   return (
     <>
-      <img src={temperature > 20 ? bigSun : bigCloud} alt="" className='big-weather-icon' />
+      <img
+        src={temperature > 20 ? bigSun : bigCloud}
+        alt="big weather icon"
+        className='big-weather-icon'
+      />
       <div className='temperature-index'>
         <strong>{temperature}</strong>&deg;{scale}
       </div>
@@ -21,7 +27,10 @@ const WeatherCityInfo = ({ info }) => {
       <div className="day">{today}, <span>{current}</span></div>
       <hr />
       <div className="cloudiness">
-        <img src={bigCloud} alt="" />
+        <img
+          src={bigCloud}
+          alt="cloud"
+        />
         <span>Clouds - {cloudiness}%</span>
       </div>
       <div className="is-broken-cloud">

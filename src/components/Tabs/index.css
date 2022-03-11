@@ -1,0 +1,18 @@
+.react-tabs__tab-list,
+.react-tabs__tab {
+  border: none;
+}
+
+.react-tabs__tab {
+  font-size: 24px;
+}
+
+.react-tabs__tab--selected {
+  font-weight: bold;
+}
+
+.react-tabs__tab-panel--selected {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
