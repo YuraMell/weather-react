@@ -3,8 +3,11 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CardWeather from '../CardWeather';
 import 'react-tabs/style/react-tabs.css';
 import './index.css'
+import TemperatureSwitch from '../TemperatureSwitch';
+import { useSelector } from 'react-redux';
 
-const CustomTabs = ({ data }) => {
+const CustomTabs = () => {
+  const data = useSelector(state => state.temperature.temperatureArr)
 
   const setDay = (index) => {
     const today = new Date().getDay()
@@ -21,6 +24,7 @@ const CustomTabs = ({ data }) => {
       <TabList>
         {data.map(tab => <Tab key={tab.id}>{tab.tabTitle}</Tab>)}
       </TabList>
+      <TemperatureSwitch />
       {data.map(tab =>
         <TabPanel key={tab.id}>
           {tab.tabContent.map((item, index) =>

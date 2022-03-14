@@ -3,6 +3,10 @@
   border: none;
 }
 
+.react-tabs {
+  position: relative;
+}
+
 .react-tabs__tab {
   font-size: 24px;
 }
