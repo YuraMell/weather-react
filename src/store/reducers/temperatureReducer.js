@@ -6,42 +6,42 @@ export const data = [
       {
         min: 5,
         max: 8,
-        cloudly: false
+        cloudiness: 60
       },
       {
         min: 20,
         max: 8,
-        cloudly: true
+        cloudiness: 80
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 70
       },
       {
         min: 5,
         max: 8,
-        cloudly: false
+        cloudiness: 35
       },
       {
         min: 20,
         max: 8,
-        cloudly: true
+        cloudiness: 30
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 25
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 15
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 10
       },
     ]
   },
@@ -52,48 +52,71 @@ export const data = [
       {
         min: 5,
         max: 8,
-        cloudly: false
+        cloudiness: 90
       },
       {
         min: 20,
         max: 8,
-        cloudly: true
+        cloudiness: 55
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudly: 45
       },
       {
         min: 5,
         max: 8,
-        cloudly: false
+        cloudiness: 20
       },
       {
         min: 20,
         max: 8,
-        cloudly: true
+        cloudiness: 30
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 60
       },
       {
         min: 5,
         max: 8,
-        cloudly: true
+        cloudiness: 50
       },
     ]
   },
 ]
 
-const defaultStateTemperature = {
-  temperatureArr: data
+const getCurrentCardInfo = (data) => {
+  const timeArr = [0, 3, 6, 9, 12, 15, 18, 21]
+  const nearestTime = Math.max(...timeArr.filter(v => v < new Date().getHours()))
+  const nearestIndex = timeArr.indexOf(nearestTime)
+  return data[0].tabContent[nearestIndex]
 }
 
+const getNowTemperature = (data) => {
+  const currentCardInfo = getCurrentCardInfo(data)
+  return Math.round((currentCardInfo.min + currentCardInfo.max) / 2)
+}
+
+const getNowCloudiness = (data) => {
+  const currentCardInfo = getCurrentCardInfo(data)
+  return currentCardInfo.cloudiness
+}
+
+const translateToCelsiusFormula = (degree) => Math.round((degree - 32) * 5 / 9)
+const translateToFahrenheitFormula = (degree) => Math.round(degree * 9 / 5 + 32)
+
+const defaultStateTemperature = {
+  temperatureArr: data,
+  scale: "C",
+  nowTemperature: getNowTemperature(data),
+  nowCloudiness: getNowCloudiness(data)
+}
 const TRANSLATE_TO_CELSIUS = 'TRANSLATE_TO_CELSIUS';
 const TRANSLATE_TO_FAHRENHEIT = 'TRANSLATE_TO_FAHRENHEIT';
+
 
 export const temperatureReducer = (state = defaultStateTemperature, action) => {
   switch (action.type) {
@@ -105,10 +128,12 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
           ...element,
           tabContent: element.tabContent.map(elem => ({
             ...elem,
-            min: elem.min / 2,
-            max: elem.max / 2
+            min: translateToCelsiusFormula(elem.min),
+            max: translateToCelsiusFormula(elem.max)
           }))
-        }))
+        })),
+        scale: 'C',
+        nowTemperature: translateToCelsiusFormula(state.nowTemperature)
       }
     case TRANSLATE_TO_FAHRENHEIT:
       return {
@@ -117,10 +142,12 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
           ...element,
           tabContent: element.tabContent.map(elem => ({
             ...elem,
-            min: elem.min * 2,
-            max: elem.max * 2
+            min: translateToFahrenheitFormula(elem.min),
+            max: translateToFahrenheitFormula(elem.max)
           }))
-        }))
+        })),
+        scale: 'F',
+        nowTemperature: translateToFahrenheitFormula(state.nowTemperature)
       }
     default: return state
   }

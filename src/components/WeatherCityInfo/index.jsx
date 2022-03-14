@@ -1,11 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import bigCloud from './../../img/big_cloud.jpg'
 import bigSun from './../../img/big_sun.jpg'
 import './index.css'
 
 
 const WeatherCityInfo = ({ info }) => {
-  const { temperature, scale, city, country, cloudiness } = info
+  const { city, country } = info
+  const temperature = useSelector(state => state.temperature.nowTemperature)
+  const cloudiness = useSelector(state => state.temperature.nowCloudiness)
+  const scale = useSelector(state => state.temperature.scale)
 
   const now = new Date();
   const today = now.toLocaleString('en-us', { weekday: 'long' })
@@ -16,7 +20,7 @@ const WeatherCityInfo = ({ info }) => {
   return (
     <>
       <img
-        src={temperature > 20 ? bigSun : bigCloud}
+        src={cloudiness < 50 ? bigSun : bigCloud}
         alt="big weather icon"
         className='big-weather-icon'
       />

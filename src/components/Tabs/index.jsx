@@ -33,7 +33,7 @@ const CustomTabs = () => {
               min={item.min}
               max={item.max}
               period={setPeriod(tab, index)}
-              cloudly={item.cloudly}
+              cloudiness={item.cloudiness}
             />
           )}
         </TabPanel>
