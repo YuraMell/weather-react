@@ -4,11 +4,8 @@ import './index.css'
 import WeatherCityInfo from '../WeatherCityInfo'
 
 const info = {
-  temperature: 9,
-  scale: 'C',
   city: 'Kyiv',
   country: 'UA',
-  cloudiness: 75,
 }
 
 const Aside = () => {

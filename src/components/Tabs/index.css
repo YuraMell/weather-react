@@ -19,4 +19,5 @@
   display: flex;
   justify-content: space-between;
   gap: 25px;
+  margin: 75px 0;
 }
