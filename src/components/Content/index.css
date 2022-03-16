@@ -1,6 +1,11 @@
 main {
   padding: 40px;
   width: 100%;
+  font-family: Helvetica;
+}
+
+h3 {
+  margin-bottom: 30px;
 }
 
 .grid-info {

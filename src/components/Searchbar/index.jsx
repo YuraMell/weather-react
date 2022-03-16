@@ -5,10 +5,12 @@ import home from './../../img/home.png'
 
 
 const Searchbar = () => {
-  const [searchValue, setSearchValue] = useState('second')
+  const [searchValue, setSearchValue] = useState('')
 
   const searchFunction = () => {
-    alert(searchValue)
+    if (searchValue) {
+      alert(searchValue)
+    }
   }
 
   const changeHandler = (e) => setSearchValue(e.target.value)
@@ -19,7 +21,7 @@ const Searchbar = () => {
         <img
           src={search}
           alt="search"
-          className='search'
+          className='search-img'
           onClick={searchFunction}
         />
         <input
@@ -34,7 +36,6 @@ const Searchbar = () => {
         src={home}
         alt="home"
         className='home-button'
-        onClick={searchFunction}
       />
     </div>
   )
