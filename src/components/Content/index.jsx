@@ -10,8 +10,17 @@ import hotTemperature from '../../img/hot_temperature.png'
 import coldTemperature from '../../img/low_temperature.png'
 
 const Content = () => {
-  const data = useSelector(state => state.temperature.temperatureArr)
+  const data = useSelector(state => state.temperatureReducer.temperatureArr)
+  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
   const todayData = data[1].tabContent[0]
+  console.log(apiWeather)
+
+  let getTime = (millisec) => {
+    const dtFromMillisec = new Date(millisec * 1000);
+    const hours = dtFromMillisec.getHours() < 10 ? '0' + dtFromMillisec.getHours() : dtFromMillisec.getHours()
+    const minutes = dtFromMillisec.getMinutes() < 10 ? '0' + dtFromMillisec.getMinutes() : dtFromMillisec.getMinutes()
+    return `${hours}:${minutes}`
+  }
 
   return (
     <main>
@@ -33,9 +42,9 @@ const Content = () => {
           </CardInfo>
           <CardInfo name="Wind Status">
             <div className='indicator'>
-              <span>{todayData.windStatus}</span> km/h
+              <span>{apiWeather?.wind?.speed}</span> km/h
             </div>
-            <p className="description">{todayData.windStatus > 2 ? 'Strong wind' : 'Light breeze'}</p>
+            <p className="description">{apiWeather?.wind?.speed > 2 ? 'Strong wind' : 'Light breeze'}</p>
           </CardInfo>
           <CardInfo name="Sunrise &#38; Sunset">
             <div className="sun-status">
@@ -44,7 +53,7 @@ const Content = () => {
                 alt="sunrise"
                 className='sun-status-img'
               />
-              <span>{todayData.sunrise}</span>
+              <span>{getTime(apiWeather?.sys?.sunrise)}</span>
             </div>
             <div className="sun-status">
               <img
@@ -52,26 +61,26 @@ const Content = () => {
                 alt="sunset"
                 className='sun-status-img'
               />
-              <span>{todayData.sunset}</span>
+              <span>{getTime(apiWeather?.sys?.sunset)}</span>
             </div>
           </CardInfo>
           <CardInfo name="Humidity">
             <div className='indicator'>
-              <span>{todayData.humidity}</span>%
+              <span>{apiWeather?.main?.humidity}</span>%
             </div>
             <progress
-              value={todayData.humidity}
+              value={apiWeather?.main?.humidity}
               max='100'
               min='0'
               className='humidity-progress'
             />
-            <p className="description">{todayData.humidity > 80 ? 'Miserable' : 'Optimal'}</p>
+            <p className="description">{apiWeather?.main?.humidity > 80 ? 'Miserable' : 'Optimal'}</p>
           </CardInfo>
           <CardInfo name="Visibility">
             <div className='indicator'>
-              <span>{todayData.visibility}</span> km/h
+              <span>{apiWeather?.visibility / 1000}</span> km/h
             </div>
-            <p className="description">{todayData.visibility >= 10 ? 'Good visibility' : 'Bad visibility'}</p>
+            <p className="description">{apiWeather?.visibility >= 10000 ? 'Good visibility' : 'Bad visibility'}</p>
           </CardInfo>
           <CardInfo name="Min &#38; Max Temperature">
             <div className="sun-status">
@@ -80,7 +89,7 @@ const Content = () => {
                 alt="sunrise"
                 className='sun-status-img'
               />
-              <span>{todayData.max}&deg;</span>
+              <span>{Math.floor(apiWeather?.main?.temp_max)}&deg;</span>
             </div>
             <div className="sun-status">
               <img
@@ -88,7 +97,7 @@ const Content = () => {
                 alt="sunset"
                 className='sun-status-img'
               />
-              <span>{todayData.min}&deg;</span>
+              <span>{Math.floor(apiWeather?.main?.temp_min)}&deg;</span>
             </div>
           </CardInfo>
         </div>

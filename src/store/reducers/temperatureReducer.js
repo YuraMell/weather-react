@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export const data = [
   {
     id: 1,
@@ -130,66 +132,53 @@ export const data = [
   },
 ]
 
-const getCurrentCardInfo = (data) => {
-  const timeArr = [0, 3, 6, 9, 12, 15, 18, 21]
-  const nearestTime = Math.max(...timeArr.filter(v => v < new Date().getHours()))
-  const nearestIndex = timeArr.indexOf(nearestTime)
-  return data[0].tabContent[nearestIndex]
-}
-
-const getNowTemperature = (data) => {
-  const currentCardInfo = getCurrentCardInfo(data)
-  return Math.round((currentCardInfo.min + currentCardInfo.max) / 2)
-}
-
-const getNowCloudiness = (data) => {
-  const currentCardInfo = getCurrentCardInfo(data)
-  return currentCardInfo.cloudiness
-}
-
 const translateToCelsiusFormula = (degree) => Math.round((degree - 32) * 5 / 9)
 const translateToFahrenheitFormula = (degree) => Math.round(degree * 9 / 5 + 32)
 
 const defaultStateTemperature = {
   temperatureArr: data,
   scale: "C",
-  nowTemperature: getNowTemperature(data),
-  nowCloudiness: getNowCloudiness(data)
+  apiWeather: []
 }
 const TRANSLATE_TO_CELSIUS = 'TRANSLATE_TO_CELSIUS';
 const TRANSLATE_TO_FAHRENHEIT = 'TRANSLATE_TO_FAHRENHEIT';
+const FETCH_DATA = 'FETCH_DATA';
 
 
 export const temperatureReducer = (state = defaultStateTemperature, action) => {
   switch (action.type) {
-
+    case FETCH_DATA:
+      return {
+        ...state,
+        apiWeather: action.payload
+      }
     case TRANSLATE_TO_CELSIUS:
       return {
         ...state,
-        temperatureArr: state.temperatureArr.map(element => ({
-          ...element,
-          tabContent: element.tabContent.map(elem => ({
-            ...elem,
-            min: translateToCelsiusFormula(elem.min),
-            max: translateToCelsiusFormula(elem.max)
-          }))
-        })),
+        apiWeather: {
+          ...state.apiWeather,
+          main: {
+            ...state.apiWeather.main,
+            temp_min: translateToCelsiusFormula(state.apiWeather.main.temp_min),
+            temp_max: translateToCelsiusFormula(state.apiWeather.main.temp_max),
+            temp: translateToCelsiusFormula(state.apiWeather.main.temp)
+          }
+        },
         scale: 'C',
-        nowTemperature: translateToCelsiusFormula(state.nowTemperature)
       }
     case TRANSLATE_TO_FAHRENHEIT:
       return {
         ...state,
-        temperatureArr: state.temperatureArr.map(element => ({
-          ...element,
-          tabContent: element.tabContent.map(elem => ({
-            ...elem,
-            min: translateToFahrenheitFormula(elem.min),
-            max: translateToFahrenheitFormula(elem.max)
-          }))
-        })),
+        apiWeather: {
+          ...state.apiWeather,
+          main: {
+            ...state.apiWeather.main,
+            temp_min: translateToFahrenheitFormula(state.apiWeather.main.temp_min),
+            temp_max: translateToFahrenheitFormula(state.apiWeather.main.temp_max),
+            temp: translateToFahrenheitFormula(state.apiWeather.main.temp)
+          }
+        },
         scale: 'F',
-        nowTemperature: translateToFahrenheitFormula(state.nowTemperature)
       }
     default: return state
   }
@@ -197,3 +186,16 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
 
 export const translateToCelsius = (payload) => ({ type: TRANSLATE_TO_CELSIUS, payload })
 export const translateToFahrenheit = (payload) => ({ type: TRANSLATE_TO_FAHRENHEIT, payload })
+
+export const fetchData = (city) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=f5a07e3e731fc9685bc29c7880cddf65`)
+      const ttt = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&units=metric&exclude=minutely&appid=f5a07e3e731fc9685bc29c7880cddf65`)
+      console.log(ttt.data)
+      response && dispatch({ type: FETCH_DATA, payload: response.data })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}

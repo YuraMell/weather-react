@@ -7,7 +7,7 @@ import TemperatureSwitch from '../TemperatureSwitch';
 import { useSelector } from 'react-redux';
 
 const CustomTabs = () => {
-  const data = useSelector(state => state.temperature.temperatureArr)
+  const data = useSelector(state => state.temperatureReducer.temperatureArr)
 
   const setDay = (index) => {
     const today = new Date().getDay()

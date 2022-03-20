@@ -5,11 +5,11 @@ import bigSun from './../../img/big_sun.jpg'
 import './index.css'
 
 
-const WeatherCityInfo = ({ info }) => {
-  const { city, country } = info
-  const temperature = useSelector(state => state.temperature.nowTemperature)
-  const cloudiness = useSelector(state => state.temperature.nowCloudiness)
-  const scale = useSelector(state => state.temperature.scale)
+const WeatherCityInfo = () => {
+  const scale = useSelector(state => state.temperatureReducer.scale)
+  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
+  const temperature = Math.floor(apiWeather?.main?.temp ?? 0)
+  const cloudiness = apiWeather?.clouds?.all ?? 0
 
   const now = new Date();
   const today = now.toLocaleString('en-us', { weekday: 'long' })
@@ -27,7 +27,7 @@ const WeatherCityInfo = ({ info }) => {
       <div className='temperature-index'>
         <strong>{temperature}</strong>&deg;{scale}
       </div>
-      <strong className='sity-and-country'>{city}, {country}</strong>
+      <strong className='sity-and-country'>{apiWeather?.name}, {apiWeather?.sys?.country}</strong>
       <div className="day">{today}, <span>{current}</span></div>
       <hr />
       <div className="cloudiness">
