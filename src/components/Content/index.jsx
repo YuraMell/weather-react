@@ -13,7 +13,6 @@ const Content = () => {
   const data = useSelector(state => state.temperatureReducer.temperatureArr)
   const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
   const todayData = data[1].tabContent[0]
-  console.log(apiWeather)
 
   let getTime = (millisec) => {
     const dtFromMillisec = new Date(millisec * 1000);

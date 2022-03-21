@@ -1,4 +1,11 @@
 .map {
   width: 100%;
   max-width: 530px;
+  min-height: 300px;
+}
+
+@media (max-width: 1600px) {
+  .map {
+    max-width: none;
+  }
 }

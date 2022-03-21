@@ -191,8 +191,7 @@ export const fetchData = (city) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=f5a07e3e731fc9685bc29c7880cddf65`)
-      const ttt = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&units=metric&exclude=minutely&appid=f5a07e3e731fc9685bc29c7880cddf65`)
-      console.log(ttt.data)
+      // const ttt = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&units=metric&exclude=minutely&appid=f5a07e3e731fc9685bc29c7880cddf65`)
       response && dispatch({ type: FETCH_DATA, payload: response.data })
     } catch (e) {
       console.log(e)

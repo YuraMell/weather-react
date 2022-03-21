@@ -1,5 +1,6 @@
 .card-weather {
   width: 70px;
+  min-width: 70px;
   box-shadow: 0 0 10px 0px #888;
   display: flex;
   flex-direction: column;

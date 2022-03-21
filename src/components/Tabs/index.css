@@ -11,6 +11,12 @@
   font-size: 24px;
 }
 
+@media (max-width: 576px) {
+  .react-tabs__tab {
+    padding: 6px;
+  }
+}
+
 .react-tabs__tab--selected {
   font-weight: bold;
 }
@@ -20,4 +26,12 @@
   justify-content: space-between;
   gap: 25px;
   margin: 75px 0;
+  padding: 10px;
+  overflow: auto;
+}
+
+@media (max-width: 1600px) {
+  .react-tabs__tab-panel--selected {
+    margin: 30px 0;
+  }
 }

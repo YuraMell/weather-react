@@ -3,17 +3,24 @@ import Searchbar from '../Searchbar'
 import './index.css'
 import WeatherCityInfo from '../WeatherCityInfo'
 
-const info = {
-  city: 'Kyiv',
-  country: 'UA',
+function open() {
+  document.querySelector(".aside").classList.toggle("show");
 }
 
 const Aside = () => {
   return (
-    <div className='aside'>
-      <Searchbar />
-      <WeatherCityInfo info={info} />
-    </div>
+    <>
+      <span id="trigger" className="trigger" onClick={open}>
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+      <div className='aside'>
+
+        <Searchbar />
+        <WeatherCityInfo />
+      </div>
+    </>
   )
 }
 
