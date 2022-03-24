@@ -7,9 +7,11 @@ import './index.css'
 
 const WeatherCityInfo = () => {
   const scale = useSelector(state => state.temperatureReducer.scale)
-  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
-  const temperature = Math.floor(apiWeather?.main?.temp ?? 0)
-  const cloudiness = apiWeather?.clouds?.all ?? 0
+  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+  const temperature = Math.floor(apiWeather2?.current?.temp ?? 0)
+  const cloudiness = apiWeather2?.current?.clouds ?? 0
+  const place = apiWeather2?.timezone?.split('/')[0]
+  const city = apiWeather2?.timezone?.split('/')[1]
 
   const now = new Date();
   const today = now.toLocaleString('en-us', { weekday: 'long' })
@@ -27,7 +29,7 @@ const WeatherCityInfo = () => {
       <div className='temperature-index'>
         <strong>{temperature}</strong>&deg;{scale}
       </div>
-      <strong className='sity-and-country'>{apiWeather?.name}, {apiWeather?.sys?.country}</strong>
+      <strong className='sity-and-country'>{city}, {place}</strong>
       <div className="day">{today}, <span>{current}</span></div>
       <hr />
       <div className="cloudiness">

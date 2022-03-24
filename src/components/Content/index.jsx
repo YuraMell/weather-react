@@ -12,6 +12,9 @@ import coldTemperature from '../../img/low_temperature.png'
 const Content = () => {
   const data = useSelector(state => state.temperatureReducer.temperatureArr)
   const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
+  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+  // const uvIndex = apiWeather2?.daily[0] ?? 0
+  // console.log(apiWeather2?.daily[0])
   const todayData = data[1].tabContent[0]
 
   let getTime = (millisec) => {

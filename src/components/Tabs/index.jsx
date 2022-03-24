@@ -7,7 +7,14 @@ import TemperatureSwitch from '../TemperatureSwitch';
 import { useSelector } from 'react-redux';
 
 const CustomTabs = () => {
-  const data = useSelector(state => state.temperatureReducer.temperatureArr)
+  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+
+  const dailyAndHourlyObj = [
+    { 'Today': apiWeather2?.hourly?.filter((_, index) => index % 6 === 0) },
+    { 'Week': apiWeather2?.daily?.slice(0, apiWeather2?.daily?.length - 1) }
+  ]
+
+  const setHours = (index) => `${index * 3}:00`
 
   const setDay = (index) => {
     const today = new Date().getDay()
@@ -15,25 +22,25 @@ const CustomTabs = () => {
     return days[today + index < 7 ? (today + index) : (today - 7 + index)]
   }
 
-  const setHours = (index) => `${index * 3}:00`
+  const setMin = (item, index) => index === 0 ? Math.floor(item.feels_like) : Math.floor(item.temp.min)
+  const setMax = (item, index) => index === 0 ? Math.floor(item.temp) : Math.floor(item.temp.max)
+  const setPeriod = (tab, index) => tab === 0 ? setHours(index) : setDay(index)
 
-  const setPeriod = (tab, index) => tab.id === 1 ? setHours(index) : setDay(index)
 
   return (
     <Tabs>
       <TabList>
-        {data.map(tab => <Tab key={tab.id}>{tab.tabTitle}</Tab>)}
+        {dailyAndHourlyObj.map((tab, index) => <Tab key={index}>{Object.keys(tab)}</Tab>)}
       </TabList>
       <TemperatureSwitch />
-      {data.map(tab =>
-        <TabPanel key={tab.id}>
-          {tab.tabContent.map((item, index) =>
+      {dailyAndHourlyObj?.map((tab, tabIndex) =>
+        <TabPanel key={tabIndex}>
+          {Object.values(tab)[0]?.map((item, index) =>
             <CardWeather
               key={index}
-              min={item.min}
-              max={item.max}
-              period={setPeriod(tab, index)}
-              cloudiness={item.cloudiness}
+              min={setMin(item, tabIndex)}
+              max={setMax(item, tabIndex)}
+              period={setPeriod(tabIndex, index)}
             />
           )}
         </TabPanel>
