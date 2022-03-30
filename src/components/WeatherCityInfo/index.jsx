@@ -8,15 +8,14 @@ import './index.css'
 const WeatherCityInfo = () => {
   const scale = useSelector(state => state.temperatureReducer.scale)
   const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+  const day = useSelector(state => state.temperatureReducer.day)
   const temperature = Math.floor(apiWeather2?.current?.temp ?? 0)
   const cloudiness = apiWeather2?.current?.clouds ?? 0
   const place = apiWeather2?.timezone?.split('/')[0]
   const city = apiWeather2?.timezone?.split('/')[1]
 
   const now = new Date();
-  const today = now.toLocaleString('en-us', { weekday: 'long' })
-  const current = now.getHours() + ':' + now.getMinutes();
-
+  const current = `${now.getHours() < 10 ? '0' + now.getHours() : now.getHours()}:${now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes()}`
   const isBrokenClouds = cloudiness > 50 && cloudiness < 80
 
   return (
@@ -30,7 +29,7 @@ const WeatherCityInfo = () => {
         <strong>{temperature}</strong>&deg;{scale}
       </div>
       <strong className='sity-and-country'>{city}, {place}</strong>
-      <div className="day">{today}, <span>{current}</span></div>
+      <div className="day">{day}, <span>{current}</span></div>
       <hr />
       <div className="cloudiness">
         <img

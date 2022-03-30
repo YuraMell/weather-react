@@ -20,4 +20,5 @@
   box-shadow: none;
   color: #fff;
   background-color: #000;
+  pointer-events: none;
 }

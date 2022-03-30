@@ -134,17 +134,24 @@ export const data = [
 
 const translateToCelsiusFormula = (degree) => Math.round((degree - 32) * 5 / 9)
 const translateToFahrenheitFormula = (degree) => Math.round(degree * 9 / 5 + 32)
+const getCurrentDay = (index) => {
+  const today = new Date().getDay()
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  return days[today + index < 7 ? (today + index) : (today - 7 + index)]
+}
 
 const defaultStateTemperature = {
   temperatureArr: data,
   scale: "C",
   apiWeather: [],
   apiWeather2: [],
+  day: new Date().toLocaleString('en-us', { weekday: 'long' })
 }
 const TRANSLATE_TO_CELSIUS = 'TRANSLATE_TO_CELSIUS';
 const TRANSLATE_TO_FAHRENHEIT = 'TRANSLATE_TO_FAHRENHEIT';
 const FETCH_DATA = 'FETCH_DATA';
 const FETCH_DATA2 = 'FETCH_DATA2';
+const SET_ANOTHER_DAY = 'SET_ANOTHER_DAY';
 
 
 export const temperatureReducer = (state = defaultStateTemperature, action) => {
@@ -167,8 +174,7 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
           main: {
             ...state.apiWeather.main,
             temp_min: translateToCelsiusFormula(state.apiWeather.main.temp_min),
-            temp_max: translateToCelsiusFormula(state.apiWeather.main.temp_max),
-            temp: translateToCelsiusFormula(state.apiWeather.main.temp)
+            temp_max: translateToCelsiusFormula(state.apiWeather.main.temp_max)
           }
         },
         apiWeather2: {
@@ -201,8 +207,7 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
           main: {
             ...state.apiWeather.main,
             temp_min: translateToFahrenheitFormula(state.apiWeather.main.temp_min),
-            temp_max: translateToFahrenheitFormula(state.apiWeather.main.temp_max),
-            temp: translateToFahrenheitFormula(state.apiWeather.main.temp)
+            temp_max: translateToFahrenheitFormula(state.apiWeather.main.temp_max)
           }
         },
         apiWeather2: {
@@ -227,12 +232,26 @@ export const temperatureReducer = (state = defaultStateTemperature, action) => {
         },
         scale: 'F',
       }
+    case SET_ANOTHER_DAY:
+      return {
+        ...state,
+        day: getCurrentDay(action.payload),
+        apiWeather2: {
+          ...state.apiWeather2,
+          current: {
+            ...state.apiWeather2.current,
+            temp: state.apiWeather2.daily[action.payload].temp.day,
+            clouds: state.apiWeather2.daily[action.payload].clouds,
+          },
+        },
+      }
     default: return state
   }
 }
 
 export const translateToCelsius = (payload) => ({ type: TRANSLATE_TO_CELSIUS, payload })
 export const translateToFahrenheit = (payload) => ({ type: TRANSLATE_TO_FAHRENHEIT, payload })
+export const setAnotherDay = (payload) => ({ type: SET_ANOTHER_DAY, payload })
 
 export const fetchData = (city) => {
   return async (dispatch) => {
@@ -240,7 +259,6 @@ export const fetchData = (city) => {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=f5a07e3e731fc9685bc29c7880cddf65`)
       const { lon, lat } = response.data.coord
       const response2 = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=f5a07e3e731fc9685bc29c7880cddf65`)
-      // console.log(response2.data)
       response && dispatch({ type: FETCH_DATA, payload: response.data })
       response2 && dispatch({ type: FETCH_DATA2, payload: response2.data })
     } catch (e) {
