@@ -1,15 +1,41 @@
-import React from 'react'
+import React, { useCallback, useState, memo } from 'react'
 import './index.css'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
-const Map = () => {
-  return (
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d19297.756820861116!2d28.46362713796437!3d49.23202080264451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1suk!2sua!4v1647345859243!5m2!1suk!2sua"
-      title='map'
-      allowFullScreen=""
-      loading="lazy"
-      className='map'></iframe>
-  )
+const Map = ({ lat, lon }) => {
+  const containerStyle = {
+    minWidth: '530px',
+    minHeight: '300px',
+  };
+
+  const center = {
+    lat: lat,
+    lng: lon
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "AIzaSyAQ0zSdSTORRJk0oYmKM2u_yuwwWRoYe7s"
+  })
+
+  const [map, setMap] = useState(null)
+
+  const onLoad = useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    map.fitBounds(bounds);
+    setMap(map)
+  }, [])
+
+  const onUnmount = useCallback(map => setMap(null), [])
+
+  return isLoaded &&
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    />
 }
 
-export default Map
+export default memo(Map)

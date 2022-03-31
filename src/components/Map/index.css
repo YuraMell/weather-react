@@ -5,7 +5,7 @@
 }
 
 @media (max-width: 1600px) {
-  .map {
-    max-width: none;
+  .grid-cards-info + div {
+    min-width: unset !important;
   }
 }

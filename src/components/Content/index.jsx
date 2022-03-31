@@ -21,6 +21,8 @@ const Content = () => {
   const visibility = hourly && hourly[0].visibility
   const min = daily && Math.floor(daily[0].temp.min)
   const max = daily && Math.floor(daily[0].temp.max)
+  const lat = apiWeather2?.lat
+  const lon = apiWeather2?.lon
 
   let getTime = (millisec) => {
     const dtFromMillisec = new Date(millisec * 1000);
@@ -108,7 +110,7 @@ const Content = () => {
             </div>
           </CardInfo>
         </div>
-        <Map />
+        <Map lat={lat} lon={lon} />
       </div>
     </main>
   )
