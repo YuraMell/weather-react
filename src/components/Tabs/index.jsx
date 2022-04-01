@@ -7,6 +7,7 @@ import TemperatureSwitch from '../TemperatureSwitch';
 import { useSelector } from 'react-redux';
 import { setAnotherDay } from '../../store/reducers/temperatureReducer';
 import { useDispatch } from 'react-redux';
+import { setDay, setHours } from '../../utils/time';
 
 const CustomTabs = () => {
   const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
@@ -24,14 +25,6 @@ const CustomTabs = () => {
       e.currentTarget.classList.add('active')
       dispatch(setAnotherDay(index))
     }
-  }
-
-  const setHours = (index) => `${index * 3}:00`
-
-  const setDay = (index) => {
-    const today = new Date().getDay()
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    return days[today + index < 7 ? (today + index) : (today - 7 + index)]
   }
 
   const setMin = (item, index) => index === 0 ? Math.floor(item.feels_like) : Math.floor(item.temp.min)

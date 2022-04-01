@@ -3,8 +3,8 @@ import './index.css'
 import search from './../../img/search.png'
 import home from './../../img/home.png'
 import { useDispatch } from 'react-redux'
-import { fetchData } from '../../store/reducers/temperatureReducer'
 import Dropdown from '../Dropdown'
+import { fetchData } from '../../hooks/fetchData'
 
 
 const Searchbar = () => {

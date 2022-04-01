@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from 'react'
-import { fetchData } from '../../store/reducers/temperatureReducer'
 import { useDispatch } from 'react-redux'
-
 import './index.css'
-import axios from 'axios'
+import { fetchData } from '../../hooks/fetchData'
+import { useFetch } from '../../hooks/useFetch'
 
 const Dropdown = ({ searchFunction }) => {
   const [searchValue, setSearchValue] = useState('')
-  const [cities, setCities] = useState([])
+  const [hide, setHide] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchData('Kyiv'))
   }, [dispatch])
 
-  const fetchCities = async (url) => {
-    const res = await axios.get(url)
-    setCities(res.data)
-    return res.data
+  const cities = useFetch('https://raw.githubusercontent.com/aZolo77/citiesBase/master/cities.json')
+
+  const onClickOptionFunc = (name) => {
+    searchFunction(name)
+    setHide(true)
   }
 
-  useEffect(() => {
-    fetchCities('https://raw.githubusercontent.com/aZolo77/citiesBase/master/cities.json')
-  }, [])
-
-
-  const changeHandler = (e) => setSearchValue(e.target.value)
+  const changeHandler = (e) => {
+    setSearchValue(e.target.value)
+    setHide(false)
+  }
 
   return (
     <>
@@ -39,13 +37,14 @@ const Dropdown = ({ searchFunction }) => {
         value={searchValue}
       />
       {searchValue &&
-        <div className='options'>
+        <div className={hide ? 'options hide' : 'options'}>
           {cities.city
-            .filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))
-            .map(item =>
+            .filter(city => city.name.toLowerCase().includes(searchValue.toLowerCase()))
+            .map((item, index) =>
               <div
-                onClick={() => searchFunction(item.name)}
+                onClick={() => onClickOptionFunc(item.name)}
                 className='option'
+                key={index}
               >
                 {item.name}
               </div>

@@ -1,23 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Searchbar from '../Searchbar'
 import './index.css'
 import WeatherCityInfo from '../WeatherCityInfo'
 
 const Aside = () => {
+  const [show, setShow] = useState(false)
 
-  const toggle = () => {
-    document.querySelector(".aside").classList.toggle("show");
-    document.querySelector(".trigger").classList.toggle("active");
-  }
+  const toggle = () => setShow(show => !show)
 
   return (
     <>
-      <span id="trigger" className="trigger" onClick={toggle}>
+      <span id="trigger" className={show ? 'trigger active' : 'trigger'} onClick={toggle}>
         <i></i>
         <i></i>
         <i></i>
       </span>
-      <div className='aside'>
+      <div className={show ? 'aside show' : 'aside'}>
         <Searchbar />
         <WeatherCityInfo />
       </div>

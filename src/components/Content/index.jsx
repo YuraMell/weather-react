@@ -8,6 +8,7 @@ import sunsetImg from '../../img/arrow-down.png'
 import sunriseImg from '../../img/arrow-up.png'
 import hotTemperature from '../../img/hot_temperature.png'
 import coldTemperature from '../../img/low_temperature.png'
+import { getTime } from '../../utils/time'
 
 const Content = () => {
   const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
@@ -23,13 +24,6 @@ const Content = () => {
   const max = daily && Math.floor(daily[0].temp.max)
   const lat = apiWeather2?.lat
   const lon = apiWeather2?.lon
-
-  let getTime = (millisec) => {
-    const dtFromMillisec = new Date(millisec * 1000);
-    const hours = dtFromMillisec.getHours() < 10 ? '0' + dtFromMillisec.getHours() : dtFromMillisec.getHours()
-    const minutes = dtFromMillisec.getMinutes() < 10 ? '0' + dtFromMillisec.getMinutes() : dtFromMillisec.getMinutes()
-    return `${hours}:${minutes}`
-  }
 
   return (
     <main>

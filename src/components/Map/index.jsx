@@ -9,8 +9,8 @@ const Map = ({ lat, lon }) => {
   };
 
   const center = {
-    lat: lat,
-    lng: lon
+    lat: lat ?? 50.4333,
+    lng: lon ?? 30.5167,
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -20,7 +20,7 @@ const Map = ({ lat, lon }) => {
 
   const [map, setMap] = useState(null)
 
-  const onLoad = useCallback(function callback(map) {
+  const onLoad = useCallback(map => {
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);
     setMap(map)
