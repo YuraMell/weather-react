@@ -12,17 +12,15 @@ const Dropdown = ({ searchPlace }) => {
   }, [dispatch])
 
   return (
-    <>
-      <Autocomplete
-        apiKey="AIzaSyAQ0zSdSTORRJk0oYmKM2u_yuwwWRoYe7s"
-        onPlaceSelected={(place) => {
-          const selectedPlace = place.formatted_address.split(',')[0]
-          searchPlace(selectedPlace)
-        }}
-        id="search"
-        onFocus={e => e.target.setAttribute('autocomplete', 'off')}
-      />
-    </>
+    <Autocomplete
+      apiKey="AIzaSyAQ0zSdSTORRJk0oYmKM2u_yuwwWRoYe7s"
+      onPlaceSelected={(place) => {
+        const selectedPlace = place.formatted_address.split(',')[0]
+        searchPlace(selectedPlace)
+      }}
+      id="search"
+      onFocus={e => e.target.setAttribute('autocomplete', 'off')}
+    />
   )
 }
 

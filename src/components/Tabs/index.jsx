@@ -10,12 +10,12 @@ import { useDispatch } from 'react-redux';
 import { setDay, setHours } from '../../utils/time';
 
 const CustomTabs = () => {
-  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
   const dispatch = useDispatch()
 
   const dailyAndHourlyObj = [
-    { 'Today': apiWeather2?.hourly?.filter((_, index) => index % 6 === 0) },
-    { 'Week': apiWeather2?.daily?.slice(0, apiWeather2?.daily?.length - 1) }
+    { 'Today': apiWeather?.hourly?.filter((_, index) => index % 6 === 0) },
+    { 'Week': apiWeather?.daily?.slice(0, apiWeather?.daily?.length - 1) }
   ]
 
   const setAsideDay = (e, tabIndex, index) => {

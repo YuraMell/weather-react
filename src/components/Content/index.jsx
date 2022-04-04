@@ -11,9 +11,9 @@ import coldTemperature from '../../img/low_temperature.png'
 import { getTime } from '../../utils/time'
 
 const Content = () => {
-  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
-  const daily = apiWeather2?.daily
-  const hourly = apiWeather2?.hourly
+  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
+  const daily = apiWeather?.daily
+  const hourly = apiWeather?.hourly
   const uvIndex = Math.round(daily && daily[0].uvi)
   const windSpeed = daily && daily[0].wind_speed
   const sunset = daily && daily[0].sunset
@@ -22,8 +22,8 @@ const Content = () => {
   const visibility = hourly && hourly[0].visibility
   const min = daily && Math.floor(daily[0].temp.min)
   const max = daily && Math.floor(daily[0].temp.max)
-  const lat = apiWeather2?.lat
-  const lon = apiWeather2?.lon
+  const lat = apiWeather?.lat
+  const lon = apiWeather?.lon
 
   return (
     <main>

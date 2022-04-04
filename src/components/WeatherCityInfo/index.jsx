@@ -9,12 +9,12 @@ import './index.css'
 
 const WeatherCityInfo = () => {
   const scale = useSelector(state => state.temperatureReducer.scale)
-  const apiWeather2 = useSelector(state => state.temperatureReducer.apiWeather2)
+  const apiWeather = useSelector(state => state.temperatureReducer.apiWeather)
   const day = useSelector(state => state.temperatureReducer.day)
-  const temperature = Math.floor(apiWeather2?.current?.temp ?? 0)
-  const cloudiness = apiWeather2?.current?.clouds ?? 0
-  const place = apiWeather2?.timezone?.split('/')[0]
-  const city = apiWeather2?.timezone?.split('/')[1]
+  const temperature = Math.floor(apiWeather?.current?.temp ?? 0)
+  const cloudiness = apiWeather?.current?.clouds ?? 0
+  const place = apiWeather?.timezone?.split('/')[0]
+  const city = apiWeather?.timezone?.split('/')[1]
 
   return (
     <>

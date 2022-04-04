@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './index.css'
 import search from './../../img/search.png'
 import home from './../../img/home.png'
@@ -8,14 +8,11 @@ import { fetchData } from '../../hooks/fetchData'
 
 
 const Searchbar = () => {
-  const [searchValue, setSearchValue] = useState('')
   const dispatch = useDispatch()
 
-  const searchPlace = (searchValue) => searchValue && dispatch(fetchData(searchValue))
+  const searchPlace = searchValue => dispatch(fetchData(searchValue))
 
-  const resetValue = () => {
-    dispatch(fetchData('Kyiv'))
-  }
+  const resetValue = () => dispatch(fetchData('Kyiv'))
 
   return (
     <div className="searchbar">
@@ -24,7 +21,6 @@ const Searchbar = () => {
           src={search}
           alt="search"
           className='search-img'
-          onClick={() => searchPlace(searchValue)}
         />
         <Dropdown searchPlace={searchPlace} />
       </label>

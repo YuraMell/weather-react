@@ -9,8 +9,8 @@ const Map = ({ lat, lon }) => {
   };
 
   const center = {
-    lat: lat ?? 50.4333,
-    lng: lon ?? 30.5167,
+    lat: lat,
+    lng: lon,
   };
 
   const { isLoaded } = useJsApiLoader({
