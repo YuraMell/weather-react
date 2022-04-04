@@ -11,10 +11,9 @@ const Searchbar = () => {
   const [searchValue, setSearchValue] = useState('')
   const dispatch = useDispatch()
 
-  const searchFunction = (searchValue) => searchValue && dispatch(fetchData(searchValue))
+  const searchPlace = (searchValue) => searchValue && dispatch(fetchData(searchValue))
 
   const resetValue = () => {
-    setSearchValue('')
     dispatch(fetchData('Kyiv'))
   }
 
@@ -25,9 +24,9 @@ const Searchbar = () => {
           src={search}
           alt="search"
           className='search-img'
-          onClick={() => searchFunction(searchValue)}
+          onClick={() => searchPlace(searchValue)}
         />
-        <Dropdown searchFunction={searchFunction} />
+        <Dropdown searchPlace={searchPlace} />
       </label>
       <img
         src={home}
